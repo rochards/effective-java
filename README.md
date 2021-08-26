@@ -44,4 +44,4 @@ Instanciando um objeto de `NutritionFacts`:
 NutritionFacts cocaCola = new NutritionFacts(240, 8, 100, 0, 35);
 ```
 perceba que não queríamos setar a propriedade `fat`, por isso atribuímos 0 a ela, ou seja, mesmo disponibilizando 
-vários construtores ainda sim não conseguimos uma flexibilidade total para setarmos apenas os atributos necessários.
+vários construtores ainda assim não conseguimos uma flexibilidade total para setarmos apenas os atributos necessários.
