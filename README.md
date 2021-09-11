@@ -29,6 +29,17 @@ Algumas **outras alternativas** são:
   os atributos desejados. A leitura ainda se tornar difícil para um número muito grande de argumentos.
 
 * Utilizar o padrão _**JavaBeans**_ - na classe haverá apenas o construtor *default* (construtor sem argumentos) e 
-  você fará uso dos métodos *setters* para inicializar os atributos desejados.  
+  você fará uso dos métodos *setters* para inicializar os atributos desejados, isso facilita a legibilidade.   
   Uma clara desvantagem dessa abordagem é que sua classe precisa ser mutável, ou seja, os atributos de classe não 
   podem ser declarados como `final`.
+
+Utilizando o padrão _builder_ temos as vantagens das duas alternativas citadas acima: classes imutáveis e 
+legibilidade ao inicializar objetos. Ex.:
+```java
+NutritionFacts cocaCola = new NutritionFacts.Builder(240, 0) // (servingSize, servings)
+                .calories(10)
+                .sodium(35)
+                .build();
+```
+perceba que em `Builder` forçamos o programador a inicializar os atributos obrigatórios e os opcionais não 
+facilmente inseridos. A construção da classe abaixo pode ser encontrada no pacote `br.rochards.item2.builder`.
