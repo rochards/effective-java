@@ -43,3 +43,6 @@ NutritionFacts cocaCola = new NutritionFacts.Builder(240, 0) // (servingSize, se
 ```
 perceba que em `Builder` forçamos o programador a inicializar os atributos obrigatórios e os opcionais não 
 facilmente inseridos. A construção da classe acima pode ser encontrada no pacote `br.rochards.item2.builder`.
+
+:bulb: uma alternativa interessante para construir _builders_ é utilizar o projeto 
+[lombok](https://projectlombok.org/features/Builder).
