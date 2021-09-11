@@ -46,3 +46,5 @@ facilmente inseridos. A construção da classe acima pode ser encontrada no paco
 
 :bulb: uma alternativa interessante para construir _builders_ é utilizar o projeto 
 [lombok](https://projectlombok.org/features/Builder).
+
+O padrão _builder_ também pode ser utilizado com classes abstratas (...)
