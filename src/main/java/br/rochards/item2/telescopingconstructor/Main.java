@@ -1,4 +1,4 @@
-package br.rochards.item2;
+package br.rochards.item2.telescopingconstructor;
 
 public class Main {
     public static void main(String[] args) {

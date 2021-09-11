@@ -1,4 +1,4 @@
-package br.rochards.item2;
+package br.rochards.item2.telescopingconstructor;
 
 // Telescoping constructor pattern - does not scale well
 public class NutritionFacts {
