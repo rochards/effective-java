@@ -42,4 +42,4 @@ NutritionFacts cocaCola = new NutritionFacts.Builder(240, 0) // (servingSize, se
                 .build();
 ```
 perceba que em `Builder` forçamos o programador a inicializar os atributos obrigatórios e os opcionais não 
-facilmente inseridos. A construção da classe abaixo pode ser encontrada no pacote `br.rochards.item2.builder`.
+facilmente inseridos. A construção da classe acima pode ser encontrada no pacote `br.rochards.item2.builder`.
