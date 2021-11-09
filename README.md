@@ -48,3 +48,24 @@ O padrão _builder_ também pode ser utilizado com classes abstratas (...)
 
 :bulb: uma alternativa interessante para construir _builders_ é utilizar o projeto
 [lombok](https://projectlombok.org/features/Builder).
+
+
+### Item 4: force classes não instanciáveis com um construtor privado
+
+Essa situação é bastante válida para aquelas classes que contém apenas métodos e atributos estáticos. Podem ser 
+consideradas classes utilitárias.
+
+Lembre-se que o compilador Java fornece um construtor *default* (sem parâmetros) sempre que nenhum construtor é 
+explicitamente declarado na classe. Então a estratégia consiste em criar um construtor privado:
+```java
+// classe utilitária não instanciável
+public class UtilityClass {
+    // suprime o construtor default com a declaração explícita
+    private UtilityClass() {
+        throw new AssertionError(); // não é obrigatório, está aqui só pro caso de instanciarem dentro da própria classe
+    }
+    // ...
+}
+```
+:speech_balloon: nenhuma outra classe conseguiria ser subclasse de `UtilityClass`, pois não teria acesso ao 
+construtor dela.
