@@ -52,7 +52,7 @@ O padrão _builder_ também pode ser utilizado com classes abstratas (...)
 
 ### Item 4: force classes não instanciáveis com um construtor privado
 
-Essa situação é bastante válida para aquelas classes que contém apenas métodos e atributos estáticos. Podem ser 
+Essa situação é bastante válida para aquelas classes que contêm apenas métodos e atributos estáticos. Podem ser 
 consideradas classes utilitárias.
 
 Lembre-se que o compilador Java fornece um construtor *default* (sem parâmetros) sempre que nenhum construtor é 
@@ -69,3 +69,39 @@ public class UtilityClass {
 ```
 :speech_balloon: nenhuma outra classe conseguiria ser subclasse de `UtilityClass`, pois não teria acesso ao 
 construtor dela.
+
+### Item 5: prefira injeção de dependência para integrar recursos
+
+Não é incomum classes dependerem de outras para compor sua lista de atributos. Dependendo da forma como você os 
+instancia dentro da classe, pode torná-la inflexível. Vamos ao exemplo:
+```java
+// uso inapropriado de um singleton - inflexível e não testável
+public class SpellChecker {
+    private final Lexicon dictionary = new Lexicon("pt-br");
+    private SpellChecker() {}
+    public static final SpellChecker INSTANCE = new SpellChecker(); // singleton pq só vai existir uma instância na memória
+    
+    public boolean isValid(String word) { /* ... */ }
+    public List<String> suggestions(String typo) { /* ... */ }
+}
+```
+o problema acima é que `SpellChecker` só valida palavras em um único idioma. 
+
+:no_entry_sign: *singletons* e classe estáticas utilitárias não são adequadas para construir classes cujo 
+comportamento depende de outros recursos (neste caso outra classe).
+
+A recomendação é passar o recurso necessário pelo construtor ao criar uma nova instância da classe, é a chamada 
+**injeção de dependência**:
+```java
+// injeção de dependência fornece flexibilidade e facilidade para testar
+public class SpellChecker {
+  private final Lexicon dictionary;
+
+  private SpellChecker(Lexicon dictionary) {
+    this.dictionary = Objects.requireNonNull(dictionary);
+  }
+
+  public boolean isValid(String word) { /* ... */ }
+  public List<String> suggestions(String typo) { /* ... */ }
+}
+```
