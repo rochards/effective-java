@@ -105,3 +105,20 @@ public class SpellChecker {
   public List<String> suggestions(String typo) { /* ... */ }
 }
 ```
+
+
+### Item 6: evite criar objetos desnecessariamente
+
+Dê preferência em reutilizar a criar novas instâncias em se tratando de objetos imutáveis. Um exemplo seria:
+```java
+String s = new String("foo bar");
+```
+a linha acima sempre cria uma nova `String` cada vez que é executada, ou seja, uma nova instância desse objeto será 
+criado na memória. Considere fazer:
+```java
+String s = "foo bar";
+```
+agora a mesma instância será utilizada todas as vezes que a linha acima for executada. **Essa abordagem pode melhorar a 
+performance da sua aplicação**, por exemplo, dentro de um *loop*.
+
+:warning: essa estratégia é segura porque uma `String` é um objeto imutável no Java.
