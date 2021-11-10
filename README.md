@@ -122,3 +122,15 @@ agora a mesma instância será utilizada todas as vezes que a linha acima for ex
 performance da sua aplicação**, por exemplo, dentro de um *loop*.
 
 :warning: essa estratégia é segura porque uma `String` é um objeto imutável no Java.
+
+Como mais um exemplo, vamos analisar o método abaixo que calcula a soma de todos os inteiros positivos:
+```java
+public static long sum(){
+    Long sum = 0L;
+    for(long i = 0; i <= Integer.MAX_VALUE; i++){
+        sum += i; // é criada uma nova instância de sum a cada iteração pq é um Long
+    }
+    return sum;
+}
+```
+se `sum` tivesse sido declarado como `long` em vez de `Long` a performance seria melhor para esse *loop*.
