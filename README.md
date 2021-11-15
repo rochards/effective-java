@@ -134,3 +134,35 @@ public static long sum(){
 }
 ```
 se `sum` tivesse sido declarado como `long` em vez de `Long` a performance seria melhor para esse *loop*.
+
+### Item 7: elimine referências a objetos obsoletos
+
+Quando trabalhamos com Java, erroneamente pensamos que não devemos nos preocupar com gerenciamento de memória, uma 
+vez que temos o *garbage collector* para fazer esse trabalho. No entanto, existem algumas situações em que o 
+programador deve proativamente eliminar a referência a objetos obsoletos. Veja o exemplo da classe `Stack` no pacote 
+`br.rochards.item7`, o problema se encontra no método `pop`:
+```java
+public Object pop() {
+    if (size == 0)
+        throw new EmptyStackException();
+    return elements[--nextFreePosition];
+}
+```
+`elements` é um *array* de objetos, e precisamos lembrar que esses tipos de *arrays* guardam apenas referências para 
+objetos que estão alocados em algum lugar na memória. Quando utilizamos o método `pop` acima estamos apenas 
+decrementando um contador para indicar que aquela posição agora está livre, mas as referências não foram removidas, 
+como pode ser visto na figura abaixo
+![stack de objetos](images/item7-stack.png)
+perceba na figura acima que as posições 6 e 7 ainda possuem referências para objetos, portanto continuam ocupando 
+espaço na memória e não serão removidos pelo *garbage collector*. Uma forma de resolver esse problema seria
+```java
+public Object pop() {
+    if (size == 0)
+        throw new EmptyStackException();
+    Object result = elements[--nextFreePosition];
+    elements[nextFreePosition] = null; // elimina a referência obsoleta
+    return result;
+}
+```
+De uma forma geral, **sempre que uma classe gerencia seu próprio espaço ocupado na memória, como a `Stack` acima, o 
+programador deve estar alerta para vazamentos de memória (_memory leak_)**
