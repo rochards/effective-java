@@ -165,4 +165,18 @@ public Object pop() {
 }
 ```
 De uma forma geral, **sempre que uma classe gerencia seu próprio espaço ocupado na memória, como a `Stack` acima, o 
-programador deve estar alerta para vazamentos de memória (_memory leak_)**
+programador deve estar alerta para vazamentos de memória (_memory leak_)**.
+
+### Item 8: evite *finalizers* e *cleaners*
+
+*Finalizers* são imprevisíveis, muitas vezes perigosos e geralmente desnecessários, então como uma regra geral você 
+deve evitar seu uso. A partir do Java 9, *finalizers* forão descontinuados e substituídos por *cleaners*. *Cleaners* 
+são menos perigosos do que *finalizers*, mas também são lentos e geralmente desnecessários.
+
+Um defeito de *finalizers* e *cleaners* é que não há garantias que eles serão executados imediatamente. Isso 
+significa que **você não deve executar nada crítico no tempo em um _finalizer_ ou _cleaner_**, como por exemplo 
+fechar arquivos, pois *file descriptors* são recursos limitados e se deixados abertos pode impedir que outros 
+programas abram arquivos. Um outro exemplo é não depender de *finalizers* e *cleaners* para atualizar informações em 
+um banco de dados. 
+
+(completar...)
