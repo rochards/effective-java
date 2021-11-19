@@ -97,7 +97,7 @@ A recomendação é passar o recurso necessário pelo construtor ao criar uma no
 public class SpellChecker {
   private final Lexicon dictionary;
 
-  private SpellChecker(Lexicon dictionary) {
+  public SpellChecker(Lexicon dictionary) {
     this.dictionary = Objects.requireNonNull(dictionary);
   }
 
@@ -180,3 +180,41 @@ programas abram arquivos. Um outro exemplo é não depender de *finalizers* e *c
 um banco de dados. 
 
 (completar...)
+
+### Item 9: prefira *try-with-resources* a *try-finally* 
+
+Há muitos recursos Java que precisam ser explicitamente fechados invocando um método `close`. Um exemplo é a classe 
+`java.io.BufferedReader`. No entanto, muitas vezes o programador esquece de fazer isso, o que pode acarretar 
+problemas de desempenho na aplicação.
+
+Vamos a um exemplo utilizando *try-finally*:
+```java
+public static String readFirstLineOfFile(String path) throws IOException {
+    var br = new BufferedReader(new FileReader(path));
+    try {
+        return br.readLine(); // pode lançar IOException
+    } finally {
+        br.close(); // pode lançar IOException
+    }
+}
+```
+ambas as linhas marcadas acima podem lançar a exceção indicada, acontece que se as duas linhas a lançarem, aparecerá 
+no *stack trace* apenas a exceção de `br.close()`, dificultando o *debugging*.
+
+O tratamento das exceções acima pode ser melhorado com *try-with-resources*, basta que a classe ou a sua superclasse 
+implemente a interface **`AutoCloseable`**:
+```java
+public static String readFirstLineOfFile(String path) throws IOException {
+    try (var br = new BufferedReader(new FileReader(path))) {
+        return br.readLine(); // pode lançar IOException
+    }
+}
+```
+*try-with-resources* melhora a legibilidade do código e o método `close` é chamado de forma implícita. Se ambos os 
+métodos `readLine` e `close` lançarem exceções, a última é suprimida para facilitar o diagnóstico do problema, mas 
+ainda assim indicada na *stack trace*.
+
+:nerd_face: em `br.rochards.item9.File` há mais exemplos de como utilizar o *try-with-resources* pode melhorar 
+a legibilidade do código. 
+
+:memo: Prefira *try-with-resources* a *try-finally* quando estiver trabalhando com recursos que devem ser fechados.
