@@ -232,9 +232,9 @@ melhor se aplica.
 Em se tratando das situações que é apropriado sobrescrever o `equals`, são para casos em que a noção de **_logical 
 equality_** difere de meros objetos e uma superclasse ainda não sobrescreveu o método. São os casos das **_value 
 classes_** e tais classes representam um valor, como a `Integer` ou `String`. Assim, o programador muitas vezes está a 
-procura de saber se esses valores são logicamente iguais e não se apontam para o mesmo objeto na memória. Então 
+procura de saber se esses valores são logicamente iguais, e não se apontam para o mesmo objeto na memória. Então 
 `Integer` e `String` são exemplos de classes que sobrescrevem o método `equals` herdado de `Object`.
 
 O livro traz muitas informações sobre este item, mas o resumo e recomendações dados para `equals` são:
 - Utilizar o *framework open-source* da Google, **AutoValue**;
-- Deixar a IDE gerar automaticamente o `equals` e inclua todos os atributos que precisam fazer parte das comparações.
+- Deixar a IDE gerar automaticamente e incluir todos os atributos que precisam fazer parte das comparações.
