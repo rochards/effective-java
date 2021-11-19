@@ -1,6 +1,8 @@
 # Effective Java
 Anotações e exemplos do livro Effective Java de Joshua Bloch.
 
+## Capítulo 2: Criando e destruindo objetos
+
 ### Item 2: considere utilizar builders quando o construtor tiver muitos argumentos
 
 Esta estratégia é muito adequada para os casos em que a classe possui vários atributos opcionais na sua composição. 
@@ -218,3 +220,6 @@ ainda assim indicada na *stack trace*.
 a legibilidade do código. 
 
 :memo: Prefira *try-with-resources* a *try-finally* quando estiver trabalhando com recursos que devem ser fechados.
+
+
+## Capítulo 3: Métodos comuns para todos os objetos
