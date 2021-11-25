@@ -252,10 +252,10 @@ Vamos exemplificar com uma classe chamada `PhoneNumber` que sobrescreveu apenas 
 Map<PhoneNumber, String> map = new HashMap<>();
 map.put(new PhoneNumber(707, 867, 5309), "Jenny");
 ```
-você poderia esperar que fazendo `map.get(new PhoneNumber(707, 867, 5309))` retornaria `Jenny`, mas retornou `null`. 
-Pelo `equals` são obviamente os mesmos objetos, mas pelo `hashCode` não, justamente porque você violou o contrato.
+você poderia esperar que fazendo `map.get(new PhoneNumber(707, 867, 5309))` obteria `Jenny`, mas retornou 
+`null`. Pelo `equals` são obviamente os mesmos objetos, mas pelo `hashCode` não, justamente porque você violou o contrato.
 
-:warning: objetos iguais devem possui o mesmo `hashCode`.
+:warning: objetos iguais devem possuir o mesmo `hashCode`.
 
 O livro mostra um passo a passo de como gerar um bom `hashCode`, mas hoje as IDEs fazem isso para você. A dica é: 
 **inclua no `hashCode` os mesmos atributos de classe utilizados no `equals`.**. Existem algumas IDEs, no entanto, 
