@@ -238,3 +238,44 @@ procura de saber se esses valores são logicamente iguais, e não se apontam par
 O livro traz muitas informações sobre este item, mas o resumo e recomendações dados para `equals` são:
 - Utilizar o *framework open-source* da Google, **AutoValue**;
 - Deixar a IDE gerar automaticamente e incluir todos os atributos que precisam fazer parte das comparações.
+
+
+### Item 11: sempre sobrescreva o `hashCode` quando sobrescrever o `equals`
+
+Se você falhar em fazer isso, estará violando o contrato geral para o `hashCode`, e *collections* como `HashMap` e 
+`HashSet` não funcionarão da forma adequada. O ponto é:
+* Se **dois objetos** são iguais de acordo com o método `equals`, então chamar o `hashCode` nesses mesmos objetos 
+  necessariamente deve resultar no mesmo inteiro. **OBS.:** o método `hashCode` retorna um `int`;
+
+Vamos exemplificar com uma classe chamada `PhoneNumber` que sobrescreveu apenas o `equals`:
+```java
+Map<PhoneNumber, String> map = new HashMap<>();
+map.put(new PhoneNumber(707, 867, 5309), "Jenny");
+```
+você poderia esperar que fazendo `map.get(new PhoneNumber(707, 867, 5309))` retornaria `Jenny`, mas retornou `null`. 
+Pelo `equals` são obviamente os mesmos objetos, mas pelo `hashCode` não, justamente porque você violou o contrato.
+
+:warning: objetos iguais devem possui o mesmo `hashCode`.
+
+O livro mostra um passo a passo de como gerar um bom `hashCode`, mas hoje as IDEs fazem isso para você. A dica é: 
+**inclua no `hashCode` os mesmos atributos de classe utilizados no `equals`.**. Existem algumas IDEs, no entanto, 
+que podem gerar um `hashCode` de baixa performance, quando utilizam o método `hash` da classe `Objects`. Ex.:
+```java
+// one-line hashCode - performance baixa
+@Override
+public int hashCode() {
+    return Objects.hash(lineNum, prefix, areaCode); // considerando que a classe possui esses atributos    
+}
+```
+o problema acima é que internamente o método cria um *array* e faz *boxing* e *unboxing* quando os atributos são 
+tipos primitivos. Uma abordagem mais performática seria você escrever:
+```java
+@Override
+public int hashCode() {
+    // considerando que os atributos areaCode, prefix e lineNum são do tipo short
+    int result = Short.hashCode(areaCode); // substituível apenas por: areaCode
+    result = 31 * result + Short.hashCode(prefix); // substituível por: 31 * result + (int) prefix;
+    result = 31 * result + Short.hashCode(lineNum); // substituível por: 31 * result + (int) lineNum;
+    return result;
+}
+```
