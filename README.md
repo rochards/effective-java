@@ -279,3 +279,10 @@ public int hashCode() {
     return result;
 }
 ```
+
+
+### Item 12: sempre sobrescreva o `toString`
+
+Isso é mais uma recomendação do que obrigação, pois não é uma implementação crítica como o `equals` e `hashCode` já 
+citados anteriormente. Forcener uma boa implementação do `toString` torna a sua classe mais legível ao imprimir, pois, 
+lembre-se que esse método é automaticamente invocado nas utilizações de `println`, `printf`, *debuggers*, etc. 
