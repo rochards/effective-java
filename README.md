@@ -297,3 +297,41 @@ a forma que `Cloneable` funciona é estranho para os padrões no Java, pois est�
 *protected* da superclasse.
 
 (**... incompleto ...**)
+
+
+### Item 14: considere implementar `Comparable`
+
+A interface `Comparable` possui o método `compareTo`, que permite comparação para ordenação. Para ordenar um *array* de 
+objetos que implementam a interface `Comparable` basta fazer: `Arrays.sorte(array)`. Observe abaixo o contrato da 
+interface `Comparable`
+```java
+public interface Comparable<T> {
+    int compareTo(T t);
+}
+```
+classes que originam objetos, que enventualmente precisarão ser ordenados, deveriam implementar `Comparable`.
+
+Supondo que os objetos `x` e `y` foram orginados por uma classe que implementa `Comparable`, então a expressão `x.
+compareTo(y)` deverá produzir os possíveis resultados abaixo:
+* Retornar `-1` se `x` for menor que `y`;
+* Retornar `0` se `x` for igual a `y`;
+* Retornar `1` se `x` for maior `y`;
+violar o contrato acima poderá impedir que estruturas do Java que dependam do `compareTo`, como `TreeSet` e `TreeMap` 
+funcionem corretamente.
+
+Quando a classe tem mais de um atributo que deve ser levado em conta na comparação, comece considerando primeiro o 
+mais significativo. Se o resultado da comparação for zero, compare o próximo mais significativo e repita o processo 
+para os demais, senão retorne o resultado. Ex.:
+```java
+@Override
+public int compareTo(PhoneNumber phoneNumber) {
+    int result = Short.compare(areaCode, phoneNumber.areaCode);
+    if (result == 0) {
+        result = Short.compare(prefix, phoneNumber.prefix);
+        if (result == 0)
+            return Short.compare(lineNum, phoneNumber.lineNum);
+    }
+    return result;
+}
+```
+a implementação foi retirada da classe `br.rochards.item14.PhoneNumber`.
