@@ -286,3 +286,14 @@ public int hashCode() {
 Isso é mais uma recomendação do que obrigação, pois não é uma implementação crítica como o `equals` e `hashCode` já 
 citados anteriormente. Forcener uma boa implementação do `toString` torna a sua classe mais legível ao imprimir, pois, 
 lembre-se que esse método é automaticamente invocado nas utilizações de `println`, `printf`, *debuggers*, etc. 
+
+
+### Item 13: sobrescreva o `clone` com sensatez
+
+A interface `Cloneable` existe para determinar o comportamento do método `clone`, que é *protected*, da classe `Object`.
+Se uma classe implementa a `Cloneable`, então o método `clone` de `Object` retorna uma cópia de cada atributo do objeto
+* lembre-se que toda classe em Java implicitamente *extends* de `Object`.
+a forma que `Cloneable` funciona é estranho para os padrões no Java, pois está modificando o comportamento de um método 
+*protected* da superclasse.
+
+(**... incompleto ...**)
