@@ -325,6 +325,15 @@ para os demais, senão retorne o resultado. Ex.:
 ```java
 @Override
 public int compareTo(PhoneNumber phoneNumber) {
+    /*
+     * evite fazer cálculos aritméticos para retornar os valores: 
+     * Ex.: int result = areaCode - phoneNumber.areaCode;
+     * 
+     * evite operadores relacionais ou ternários:
+     * Ex.: int result = areaCode > phoneNumber.areaCode ? 1 : areaCode < phoneNumber.areaCode ? -1 : 0;
+     * 
+     * dê preferência aos métodos estáticos das classes como na implementação abaixo
+     * */
     int result = Short.compare(areaCode, phoneNumber.areaCode);
     if (result == 0) {
         result = Short.compare(prefix, phoneNumber.prefix);
@@ -334,4 +343,4 @@ public int compareTo(PhoneNumber phoneNumber) {
     return result;
 }
 ```
-a implementação foi retirada da classe `br.rochards.item14.PhoneNumber`.
+a implementação acima foi retirada da classe `br.rochards.item14.PhoneNumber`.
