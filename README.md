@@ -302,7 +302,7 @@ a forma que `Cloneable` funciona é estranho para os padrões no Java, pois est�
 ### Item 14: considere implementar `Comparable`
 
 A interface `Comparable` possui o método `compareTo`, que permite comparação para ordenação. Para ordenar um *array* de 
-objetos que implementam a interface `Comparable` basta fazer: `Arrays.sorte(array)`. Observe abaixo o contrato da 
+objetos que implementam a interface `Comparable` basta fazer: `Arrays.sort(array)`. Observe abaixo o contrato da 
 interface `Comparable`
 ```java
 public interface Comparable<T> {
@@ -344,3 +344,8 @@ public int compareTo(PhoneNumber phoneNumber) {
 }
 ```
 a implementação acima foi retirada da classe `br.rochards.item14.PhoneNumber`.
+
+
+## Capítulo 4: Classes e interfaces
+
+### Item 15: restrinja a acessibilidade de classes e membros 
