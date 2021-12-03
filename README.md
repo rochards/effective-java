@@ -349,3 +349,40 @@ a implementação acima foi retirada da classe `br.rochards.item14.PhoneNumber`.
 ## Capítulo 4: Classes e interfaces
 
 ### Item 15: restrinja a acessibilidade de classes e membros 
+
+Um componente bem projetado/escrito/desenvolvido esconde seus detalhes de implementação, assim a comunicação se dá 
+apenas pela sua API (ex.: a assinatura de um método me diz o que ele recebe e o que retorna). O resultado é que o 
+sistema cresce desacoplado, e os componentes podem ser desenvolvidos, testados, otimizados, compreendidos e 
+modificados de forma isolada. 
+
+Adote como regra geral **tornar cada membro da classe o mais inacessível possível**. Antes de avançarmos nas 
+discussões vamos relembrar alguns conceitos sobre modificadores de acesso em Java:
+* **private** - o membro (atributo, método, classes aninhadas) da classe é acessível apenas dentro da classe;
+* **protected** - o membro pode ser acessado pelas subclasses da classe em que foi declarado e por classes que 
+  pertecem ao mesmo pacote;
+* **public** - o membro é acessado de qualquer lugar;
+* **package-private** - por último, não é um modificador de acesso no Java, mas é a visibilidade padrão de um membro 
+  quando não explicitamente marcado por uns dos três citados acima. Nesse caso, o membro é acessível por qualquer 
+  classe dentro do mesmo pacote.
+
+Alguns conselhos interessantes trazidos pelo livro:
+* Se uma determinada classe ou interface puder ser *package-private*, então deveria. Assim você poderia modificá-la, 
+  substituí-la, ou até mesmo excluí-la em uma próxima *release* sem temer quebrar o código de clientes (consumidores 
+  da classe);
+* Se uma *package-private* classe ou interface é utilizada apenas por uma única classe, então considere escrevê-la 
+  com modificador de acesso *private* dentro do mesmo arquivo da classe que a utiliza.
+* Atributos de classes *public* deveriam ser *private*, dessa forma você tem controle seus valores. Classes com 
+  atributos *public* e mutáveis geralmente não são *thread-safe*;
+* Você pode expor constantes via `public static final`. O importante é que esses atributos sejam de tipos primitivos 
+  ou referências para objetos imutáveis.
+  * Ex1.: `public static final int[] VALUES = { ... }` - os valores de um *array* podem ser modificados, por isso 
+    exportá-los como variáveis públicas pode ser um furo de segurança;
+  * Ex2.: para resolver o problema acima da multabilidade do *array*, você poderia tomar a abordagem abaixo
+  ```java
+  private static final int[] PRIVATE_VALUES = { ... };
+  public static final int[] values() {
+        return PRIVATE_VALUES.clone(); // retorna uma cópia exata do array deixando PRIVATE_VALUES imune a modificações
+  }
+  ```
+
+**(...voltar para falar sobre os módulos...)**
