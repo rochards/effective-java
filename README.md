@@ -377,7 +377,7 @@ Alguns conselhos interessantes trazidos pelo livro:
   ou referências para objetos imutáveis.
   * Ex1.: `public static final int[] VALUES = { ... }` - os valores de um *array* podem ser modificados, por isso 
     exportá-los como variáveis públicas pode ser um furo de segurança;
-  * Ex2.: para resolver o problema acima da multabilidade do *array*, você poderia tomar a abordagem abaixo
+  * Ex2.: para resolver o problema acima da mutabilidade do *array*, você poderia tomar a abordagem abaixo
   ```java
   private static final int[] PRIVATE_VALUES = { ... };
   public static final int[] values() {
