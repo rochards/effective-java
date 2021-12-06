@@ -386,3 +386,31 @@ Alguns conselhos interessantes trazidos pelo livro:
   ```
 
 **(...voltar para falar sobre os módulos...)**
+
+
+### Item 16: em classes públicas utilize métodos de acesso e não atributos públicos
+
+Não é incomum em projetos termos classes que apenas agregam atributos, que o livro se refere como **_degenerate 
+classes_**, como no exemplo abaixo:
+```java
+// Degenerate classes não deveriam ser públicas
+class Point {
+    public double x;
+    public double y;
+}
+```
+algumas recomendações para esses tipos de classes são:
+* Se a classe é acessível fora do pacote em que foi declarada, então utilize método de acesso, *getters* e *setters*, 
+  em vez de deixar os atributos como públicos, pois assim você pode foçar certos comportamentos;
+  * Ex.:
+  ```java
+    public void setAge(int age) {
+        if (age < 0) 
+            throw new IllegalArgumentException("age " + age);
+        this.age = age;
+    }
+  ```
+* Em casos em que a classe *package-private*, ou uma classe aninhada (*nested class*), não há tanto problema em 
+  deixar os atributos expostos, considerando que essa classe não será exposta para clientes (entenda clientes como 
+  outros programadores que consumirão o seu código);
+* Caso o atributo em questão seja `final` então é aceitável, pois às vezes você está querendo expor uma constante.
