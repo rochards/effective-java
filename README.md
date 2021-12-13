@@ -371,7 +371,7 @@ Alguns conselhos interessantes trazidos pelo livro:
   da classe);
 * Se uma *package-private* classe ou interface é utilizada apenas por uma única classe, então considere escrevê-la 
   com modificador de acesso *private* dentro do mesmo arquivo da classe que a utiliza.
-* Atributos de classes *public* deveriam ser *private*, dessa forma você tem controle seus valores. Classes com 
+* Atributos de classes *public* deveriam ser *private*, dessa forma você tem controle sobre seus valores. Classes com 
   atributos *public* e mutáveis geralmente não são *thread-safe*;
 * Você pode expor constantes via `public static final`. O importante é que esses atributos sejam de tipos primitivos 
   ou referências para objetos imutáveis.
@@ -414,3 +414,52 @@ algumas recomendações para esses tipos de classes são:
   deixar os atributos expostos, considerando que essa classe não será exposta para clientes (entenda clientes como 
   outros programadores que consumirão o seu código);
 * Caso o atributo em questão seja `final` então é aceitável, pois às vezes você está querendo expor uma constante.
+
+
+### Item 17: minimize a mutabilidade
+
+Uma classe imutável é aquela que os valores dos seus atributos não podem ser modificados após inicializados. Alguns 
+exemplos de classes imutáveis no Java são `String`, `BigInteger` e `BigDecimal`. Trabalhar com esses tipos de 
+classes torna seu código menos suscetivel a erros.
+
+Como construir uma classe imutável:
+* **Não forneça métodos que modifique o estado do objeto.** Ex.: *setters*;
+* **Não permita que a classe seja estendida**. Você pode fazer isso marcando a classe como `final`;
+* **Declare todos os atributos como `final`**;
+* **Declare todos os atributos como `private`**;
+* **Não forneça aos clientes (programadores que usam sua classe) acesso à referência de objetos mutáveis**. Nunca 
+  inicialize esses objetos com a referência fornecida pelo cliente:
+  * Ex.:
+  ```java
+  public class SomeClass {
+    private final List<String> names;
+
+    public SomeClass(List<String> names) {
+        /* sua lista names vai ter os mesmos valores passados pelo construtor, mas referências diferentes. Assim, se 
+  o cliente modificar essa lista, names de SomeClass não será afetada */
+        this.names = new ArrayList<>(names);
+        /* this.names = List.copyOf(names); -> outra alternativa, a diferença é que names agora é imutável. */
+    }
+    public List<String> getNames() {
+        /* abaixo é retornada uma cópia */
+        return new ArrayList<>(names);
+    }
+  }
+  ```
+
+Vantagens de trabalhar com objetos imutáveis:
+* **São simples** — já que possuirão um único estado (falando dos valores das proprieadades internas) enquanto 
+  existir em memória;
+* **São _thread-safe_; não requerem sincronização** — já que o estado do objeto não pode ser modificado, então o 
+  programador fica despreocupado em saber se o objeto possui o estado mais atualizado pela *thread*;
+* **Facilitam a composição de objetos** — imutáveis ou mutáveis. Fica fácil você criar e manter uma classe em que os
+  seus atributos são objetos imutáveis;
+* **São ótimos para serem utilizados em _collections_ como `Map` e `Set`** — usados como chaves de `Map` você sabe 
+  que o valor não mudará; 
+
+Desvantagems de trabalhar com objetos imutáveis:
+* **requerem um novo objeto para cada novo valor** — pode ser custoso, acarretando problemas de performance. A dica é 
+  sempre que possível reutilizar as instâncias criadas.
+
+:memo: Como regra adote que **uma classe deveria ser imutável, a não ser quer haja uma boa razão para não ser**.  
+:memo: **Se uma classe não puder ser imutável, limite sua mutabilidade o máximo possível**.
