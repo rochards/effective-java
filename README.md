@@ -463,3 +463,6 @@ Desvantagems de trabalhar com objetos imutáveis:
 
 :memo: Como regra adote que **uma classe deveria ser imutável, a não ser quer haja uma boa razão para não ser**.  
 :memo: **Se uma classe não puder ser imutável, limite sua mutabilidade o máximo possível**.
+
+>[!IMPORTANT]
+> object
